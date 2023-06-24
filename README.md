@@ -1,4 +1,4 @@
-# Stack
+
 Typescript
 React
 Tailwindcss
