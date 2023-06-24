@@ -37,15 +37,10 @@ export interface City {
   population:  number;
 }
 
-
-
-
-
-
 function App() {
   const [input, setInput] = useState('');
   const [debouncedInput, setDebouncedInput] = useState(input);
-  const [cities, setCities] = useState([] as any[]);
+  const [cities, setCities] = useState<any[] | undefined>([]);
 
   function fetchData(value: string) {
     const url = `https://wft-geo-db.p.rapidapi.com/v1/geo/cities?minPopulation=100000&namePrefix=${value}`;
@@ -64,7 +59,6 @@ function App() {
       });
   }
 
-
   useEffect(() => {
     const timer = setTimeout(() => setInput(debouncedInput), 1000)
     return () => clearTimeout(timer);
@@ -80,8 +74,6 @@ function App() {
     }
   }, [input])
 
-
-
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
@@ -90,26 +82,22 @@ function App() {
         <form className='w-full mt-2 mb-2'>
           <TextField id="standard-basic" variant="standard" className='w-full' onChange={(e) => { setDebouncedInput(e.target.value) }} value={debouncedInput} />
         </form>
-   
-
         {
-          
-          cities.map((city: City) => {
-
+          cities?.map((city: City) => {
+            console.log(city);
             return <Result
-              key={nanoid()}
+              key={`${city.city} ${city.region}`}
               name={city.city}
               region={city.region}
               lat={city.latitude}
               lon={city.longitude} 
+              country={city.country} 
+              countryCode={city.countryCode}
             />
           })
-          
-
         }
       </div>
     </ThemeProvider>
-
   );
 }
 

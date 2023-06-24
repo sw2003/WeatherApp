@@ -1,11 +1,16 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { nanoid } from 'nanoid';
+import FlagEmoji from './emoji';
+
 
 type PropType = {
     name: string
     region: string
     lat: number,
     lon: number,
+    country: string, 
+    countryCode:string
 }
 
 interface Main {
@@ -40,7 +45,6 @@ function Result(props: PropType) {
     const [weatherIsLoaded, setWeatherIsLoaded] = useState(false);
 
     useEffect(() => {
-        console.log("hello?");
         const url: string = `https://api.openweathermap.org/data/2.5/forecast?lat=${props.lat}&lon=${props.lon}&units=metric&cnt=1&appid=417dda841d49fb1613067523ecab4453`
         fetch(url)
             .then((res) => res.json())
@@ -57,14 +61,15 @@ function Result(props: PropType) {
     }, [props.lat, props.lon])
 
     return (
-        <div className='w-full border-2 border-white p-2'>
+        <div key={nanoid()} className='w-full border-2 border-white p-2'>
             <div className='flex justify-between w-full'>
                 <div className='inline-block whitespace-nowrap'>
                     <h2 className='inline-block'>{props.name}, {props.region}</h2>
-                    <> 🇨🇦</>
+                    <FlagEmoji 
+                        countryCode={props.countryCode} 
+                    />
                 </div>
                 <div className='inline-block whitespace-nowrap'>
-
                     {
                         weatherIsLoaded ?
                             <p className='inline-block'>{`${weather?.temp}°, ${weather?.description}`}</p>
@@ -77,4 +82,4 @@ function Result(props: PropType) {
     )
 }
 
-export default Result; 
+export default React.memo(Result);
