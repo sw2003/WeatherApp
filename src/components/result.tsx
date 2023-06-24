@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import FlagEmoji from './emoji';
 
-
 type PropType = {
     name: string
     region: string
@@ -61,7 +60,7 @@ function Result(props: PropType) {
     }, [props.lat, props.lon])
 
     return (
-        <div key={nanoid()} className='w-full border-2 border-white p-2'>
+        <div className='w-full border-2 border-white p-2'>
             <div className='flex justify-between w-full'>
                 <div className='inline-block whitespace-nowrap'>
                     <h2 className='inline-block'>{props.name}, {props.region}</h2>
@@ -77,6 +76,11 @@ function Result(props: PropType) {
                             <p>Loading...</p>
                     }
                 </div>
+            </div>
+            <div className='flex justify-around w-full'>
+                <div className='w-1/3 p-2'></div>
+                <div className='w-1/3 p-2'></div>
+                <div className='w-1/3 p-2'></div>
             </div>
         </div>
     )
